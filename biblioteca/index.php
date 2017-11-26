@@ -23,10 +23,6 @@
         case "showPortada":
             $vista->show("portada");
             break;
-		case "showAdmin":
-		
-			break;
-		
 		
 		case "showIntAdmin":
 			$datos["tabla"] = $libro->get_info();

@@ -1,4 +1,4 @@
-
+<script type="text/javascript" src="js/turn.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
 				
