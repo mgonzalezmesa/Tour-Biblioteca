@@ -31,6 +31,8 @@ body{
 }
 .pag{
 	background-color:#F0E68C;
+	background: -webkit-gradient(linear, left top, right top, color-stop(0.95, rgba(0,0,0,0)), color-stop(1, rgba(0,0,0,0.2)));
+    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0) 95%, rgba(0,0,0,0.2) 100%);
 }
 #container{
 	width:1200px;
@@ -51,7 +53,7 @@ body{
 .prev_page{
 	position:fixed;
 	margin-top:300px;
-	margin-left:-75px;
+	margin-left:-50px;
 	padding:10px;
 	background-color:#D8D8D8;
 	border-radius:5px;
@@ -170,3 +172,11 @@ body{
 }	
 
 		
+.hamburguesa:hover{
+	background-color:red;
+}
+
+
+
+/*background: -webkit-gradient(linear, left top, right top, color-stop(0.95, rgba(0,0,0,0)), color-stop(1, rgba(0,0,0,0.2)));
+    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0) 95%, rgba(0,0,0,0.2) 100%);*/
