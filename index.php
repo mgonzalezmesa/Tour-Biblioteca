@@ -97,7 +97,7 @@
                      <div id="separador"> </div>
                      <div id="lazo"></div>
                      <div id="coso3"> </div>
-                    <h2 aling="center">Historia</h2>
+                    <a href="#ventana1" style="margin-top:35px; background-color:transparent;" class="btn btn-primary btn-lg hamburguesa" data-toggle="modal">HISTORIA</a>
                          
                  </div> 
              </div> 
@@ -136,7 +136,7 @@
                                                     $i++;
                                                     //Sacamos las portadas de los libros
                                                         echo "<td class='columna'>";
-                                                            echo "<img data-toggle='modal' data-target='#ventana2' idlibro='".$ides['id_libro']."' class='efectBook ocultar' src='imgs/books/$ides[id_libro]/0.jpg' height='250px' width='200px'>";
+                                                            echo "<img data-toggle='modal' data-target='#ventana2' idlibro='".$ides['id_libro']."' class='efectBook ocultar' src='biblioteca/imgs/books/$ides[id_libro]/0.jpg' height='250px' width='200px'>";
                                                         echo "</td>";
                                                         if ($i%4 == 0)  echo "</tr><tr>";
                                                     }
@@ -161,7 +161,7 @@
                             <!-- Aqui vendria el titulo del LIBRO -->
                             <div class="modal-header">
                                 <button type="button" class="close show" data-dismiss="modal">×</button>
-                                <h4 class="modal-title" style="color:white; text-align:center;font-size:20px">Titulo Libro</h4>
+                                <h4 class="modal-title" style="background-color:#333333bd;border-radius:25px;border:none;font-color:white;">Titulo Libro</h4>
                             </div>
                             <!-- Cuerpo de modal carga el libro.php -->
                             <div class="modal-body" id="modal-body">
@@ -173,8 +173,8 @@
                         </div>
                 </div>
             </div>
-            <a href="#ventana1" class="btn btn-primary btn-lg" data-toggle="modal">Ver libros en nuestra biblioteca</a> 
-            <a href="biblioteca/index.php?accion=showIntAdmin" class="btn btn-primary btn-lg" data-toggle="modal">Administrar</a> 
+            <!--<a href="#ventana1" class="btn btn-primary btn-lg" data-toggle="modal">Ver libros en nuestra biblioteca</a>--> 
+            <!--<a href="biblioteca/index.php?accion=showIntAdmin" class="btn btn-primary btn-lg" data-toggle="modal">Administrar</a> -->
 
 
 
