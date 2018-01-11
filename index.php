@@ -1,254 +1,67 @@
-<!DOCTYPE html>
-<html lang="es">
- <head>
- 
-     
-     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-     
-     <title>CeliaTour</title>
-     <link rel="stylesheet" href="web/estilo.css"/>
-     <!---
-     <link href='http://fonts.googleapis.com/css?family=Wellfleet' rel='stylesheet' type='text/css'>
-     <link href='http://fonts.googleapis.com/css?family=Arvo:400,700,400italic,700italic' rel='stylesheet' type='text/css'> 
-     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-     <link href='http://fonts.googleapis.com/css?family=Goudy+Bookletter+1911' rel='stylesheet' type='text/css'>
 
-    -->
-     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
-     
-     <link href="https://fonts.googleapis.com/css?family=Calligraffitti" rel="stylesheet">
-      <link rel="shortcut icon" href="web/img/icono.ico">
+<?php
 
-        <link rel="stylesheet" type="text/css" href="/php/celia/biblioteca/css/estilo.css" media="screen" />
-        <link rel="stylesheet" href="/php/celia/biblioteca/css/font-awesome-4.7.0/css/font-awesome.min.css">
-        <script type="text/javascript" src="biblioteca/extras/jquery.min.1.7.js"></script>
-        <script type="text/javascript" src="biblioteca/extras/jquery-ui-1.8.20.custom.min.js"></script>
-        <script type="text/javascript" src="biblioteca/extras/jquery.mousewheel.min.js"></script>
-        <script type="text/javascript" src="biblioteca/extras/modernizr.2.5.3.min.js"></script>
-        <script type="text/javascript" src="biblioteca/lib/hash.js"></script>
-        <script type="text/javascript" src="biblioteca/js/jquery-3.2.1.js"></script>
-        
-        <script type="text/javascript" src="biblioteca/js/bootstrap.min.js"></script> 
-        
-        <link rel="stylesheet" href="biblioteca/css/bootstrap.min.css">
-        <link href="biblioteca/css/hover.css" rel="stylesheet" media="all">
-        
-        <link rel="stylesheet" type="text/css" href="/php/celia/biblioteca/css/estilo.css" media="screen" />
-        
-        
-        <link rel="stylesheet" href="/php/celia/biblioteca/css/animate.css">
-        
+    include("vista.php");
+	include("libro.php");
+	
+	
+    $vista = new Vista();
+	$libro = new Libro();
 
-</head>
-<script>
-            //Rellena el div de la ventana modal con el libro.php
-            
-            $( document ).ready(function() {
-                $('.efectBook').click(function(){
-                    idlibro = $(this).attr("idlibro");
-                    $('#modal-body').load('biblioteca/vistas/libro.php', {'idlibro': idlibro});
-                })
-            });
+	//Para descargar biches
+	//header("Content-Type: application/octet-stream");
+	//header("Content-Disposition: attachment; filename=download.pdf");
+	//header("Content-Transfer-Encoding: binary");
+	//readfile(imgs/books/6/download.pdf);
 
-            $(document).ready(function(){
-                $(".ocultar").click(function(){
-                    $("#ventana1").hide();
-                });
-                $(".show").click(function(){
-                    $("#ventana1").show();
-                });
-            });
-            
-        </script>
-    
-    <body>
-     <div id="cambio">
-         <img id="libre" src="web/img/portadalibremini2.png">
-         <img id="destacado" src="web/img/portadadestacadamini.png">
-         <img id="guiada" src="web/img/portadaguiadamini.png">
-         
-     </div>
-        
-        <header id="header">
-            <div class="contenedor">
-            <nav id="nav">
-             <ul>
-                 <li><img src="web/img/logo.png"/> </li>
-                 <li><a href="pannellum.html" id="opcionlibre">Modo Libre</a></li>
-                 <li><a href="#" id="opcionguiada">Visita Guiada</a></li>
-                 <li><a href="#" id="opciondestacada">Puntos D</a></li>
-				 <li><a href="#" >Biblioteca</a></li>
-                 <li><a href="#" >Glosario</a></li>
-                 <li><a href="#" >Creditos</a></li>
-                
-             </ul>
-            </nav>
-            </div>
-        </header>
-        <main>
-             <div id="slider1">
-                 <div class="contenedor">
-                    
-                     <!--<div id="retrato"> </div>
-                     <div id="coso"></div>
-                     <div id="coso2"></div>-->
-                     <h1>Celia Tour</h1>
-                     <!-- <h2 style="text-align: center">Tour 360</h2> -->
-                     <div id="separador"> </div>
-                     <div id="lazo"></div>
-                     <div id="coso3"> </div>
-                    <a href="#ventana1" style="margin-top:35px; background-color:transparent;" class="btn btn-primary btn-lg hamburguesa" data-toggle="modal">HISTORIA</a>
-                         
-                 </div> 
-             </div> 
-                                
+    if (isset($_REQUEST["accion"]))
+        $accion = $_REQUEST["accion"];
+    else
+        $accion = "showPortada";  // Acción por defecto
 
+    switch ($accion) {
+        case "showPortada":
+            $vista->show("portada");
+            break;
+		
+		case "showIntAdmin":
+			$datos["tabla"] = $libro->get_info();
+			$vista->show("IntAdmin",$datos);
+			
+			break;
+			
+		case "modificarLibro":
+		
+			$id_libro=$_REQUEST["id"];
+			$resultado= $libro->update($id_libro);
+			
+			$datos["libros"] = $resultado;
+			
+			$vista->show("modificarLibro", $datos);
+			break;	
+		case "showInsertLibro":
+			$vista->show("inserLibro");
+			break;
+			
+		case "deleteLibro":
+			$id_libro = $_REQUEST["id"];
+			$resultado = $libro->deleteLibro($id_libro);
+			$datos["tabla"] = $libro->get_info();
+			$vista->show("IntAdmin",$datos);
+			break;
+		case "showInsertImg":
+			$datos = $_REQUEST["id"];
+			$vista->show("insertimg",$datos);
+		break;
+		case "procesarInsertImg":
+			$id_libro = $_REQUEST["id"];
+			$pag_ant = $_REQUEST["pagina_ant"];
+			$num_pag = $_REQUEST["num_pag"];
+			$libro->renomDir($id_libro,$pag_ant,$num_pag);
+			$libro->insertarImagen($id_libro, $pag_ant);
+			$datos = $_REQUEST["id"];
+			$vista->show("insertImg",$datos);
+		break;
+    }
 
-                                <!-- EMPIEZA BIBLIOTECA -->
-
-
-
-
-            <div class="modal fade" id="ventana1">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h2 class="modal-title">Biblioteca I.E.S CELIA VIÑAS</h2>
-                                </div>
-                                <div class="pared">
-                                    <div class="modal-body fondo">
-                                        <?php
-
-                                            $conexdb = new mysqli('localhost','root','','biblio');
-                                                if (!$conexdb) {
-                                                    die('Error al conectarse a mysql: ' . mysql_error());
-                                                }
-
-                                            $consult=$conexdb->query("Select id_libro from libros");
-                                                        
-                                            $Arrayportada = $consult->fetch_all(MYSQLI_ASSOC);
-                                                echo "<div class='estanteria'>";        
-                                                    echo "<table style='margin-left: 175px; margin-top: 221px;'>";  
-                                                        echo "<tr>";
-
-                                                $i = 0;
-                                                foreach ($Arrayportada as $ides){
-                                                    $i++;
-                                                    //Sacamos las portadas de los libros
-                                                        echo "<td class='columna'>";
-                                                            echo "<img data-toggle='modal' data-target='#ventana2' idlibro='".$ides['id_libro']."' class='efectBook ocultar' src='biblioteca/imgs/books/$ides[id_libro]/0.jpg' height='250px' width='200px'>";
-                                                        echo "</td>";
-                                                        if ($i%4 == 0)  echo "</tr><tr>";
-                                                    }
-                                                    echo "</tr></table>";
-                                                echo "</div>";
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                                </div>          
-                            </div>
-                                    
-                        </div>
-                        
-                    </div>
-
-            <div class="modal fade" id="ventana2" role="dialog">
-                <div class="modal-dialog modal-lg" >
-                    <!-- Modal content background-color:transparent;  -->
-                        <div class="modal-content" style=" width: 135%;margin-left: -165px; -webkit-box-shadow: 0 0px 0px rgba(0,0,0,.5);background-color:transparent;border: none;">
-                            <!-- Aqui vendria el titulo del LIBRO -->
-                            <div class="modal-header">
-                                <button type="button" class="close show" data-dismiss="modal">×</button>
-                                <h4 class="modal-title" style="background-color:#333333bd;border-radius:25px;border:none;font-color:white;">Titulo Libro</h4>
-                            </div>
-                            <!-- Cuerpo de modal carga el libro.php -->
-                            <div class="modal-body" id="modal-body">
-                                        <!-- Cargamos con una funcion el libro en ventana emergente -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default show" data-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                </div>
-            </div>
-            <!--<a href="#ventana1" class="btn btn-primary btn-lg" data-toggle="modal">Ver libros en nuestra biblioteca</a>--> 
-            <!--<a href="biblioteca/index.php?accion=showIntAdmin" class="btn btn-primary btn-lg" data-toggle="modal">Administrar</a> -->
-
-
-
-
-
-
-
-
-
-
-
-<!--
-             <div id="slider2">
-                 <div class="contenedor" >
-                 <div class="textico_contenedor2">
-                     <h3>Origenes</h3>
-                 <p class="textico">El Colegio de Humanidades, fundado por el Excmo. Ayuntamiento de Almería con el nombre de Colegio de Santo Tomás de Aquino, fue sustituido por el Instituto de Segunda Enseñanza como consecuencia del Real Decreto de 17 de Septiembre de 1845 para la Instauración de la Enseñanza Oficial, siendo uno de los primeros que empezaron a funcionar en Andalucía.
-                    
-
-                    </p>
-                     <img src="web/img/origins.JPG" alt="I.E.S Celia Viñas">
-                 </div> 
-                 </div> 
-             </div> 
-             <div id="slider3">
-                 <div class="contenedor">
-                     <div class="textico_contenedor">
-                     <p class="textico2">Es un majestuoso edificio de carácter historicista de sótano y tres plantas, altos techos y con arranques de piedra noble de cantería y gruesos muros de mampostería en sus tres plantas superiores. Era tal su monumentalidad y envergadura para la Almería de la época que las licitaciones y subastas quedaron desiertas, no terminándose el edificio hasta 1931. <br>
-                         Durante años fue el edificio más alto de la ciudad en competencia con el de las mariposas en Puerta de Purchena y con otro de la plaza Circular.</p>
-                        
-                         
-                     </div> 
-                 </div> 
-             </div> 
-
-             <div id="slider4">
-                 <div class="contenedor">
-                     <div class="textico_contenedor">
-                     <p class="textico">“Lorito real,
-                         lorito español,
-                         canta tu amarilla
-                         tonada de sol.
-                            <br>
-                         -¡A real! ¡A real!
-                             <br>
-                         En mi jaula estoy
-                         comiendo avellanas,
-                         bebiendo sifón.
-                             <br>
-                         -Lorito real,
-                         me sé la lección:
-                         dos y dos son cuatro.
-                         Aquí y en Japón.” </p>
-                     <img src="web/img/retratomini.png" align="left"/> <h4 class="autor">Celia Viñas Olivella</h4>
-                     </div> 
-                 </div> 
-             </div> 
-
-             <div id="slider5">
-             <div class="contenedor">
-                    <div class="mapa">
-                        <a href="web/historiaceliavi%C3%B1a.pdf" >Leer más sobre la historia del Celia Viñas</a>
-                    </div>            
-             </div>
-             </div>
--->
-        </main>
-        
-        <footer>
-            <div id="elamo">Celia Tour 360</div>
-        </footer>
-        
-        <script src="web/jquery-3.2.1.min.js"></script>
-        <script src="web/efectos.js"></script>
-        
-</body>
-</html>
+?>
