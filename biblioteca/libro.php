@@ -9,23 +9,12 @@
 		}
         
 		public function get_info(){
-			//$db = new mysqli("localhost", "root", "", "biblio");
-            //$select = $db->query("SELECT * FROM libros");
-            //$tabla = $select->fetch_all();
-            //$db->close();
-
             $this->db->conectar();
             $tabla = $this->db->consulta("SELECT * FROM libros");
             $this->db->desconectar();
             return $tabla;
 		}
 		public function update($id_libro){
-
-			/*$conexdb=new mysqli("localhost","root","","biblio");
-			$select = $conexdb->query("select * from libros where id_libro = '$id_libro'");
-			$tabla = $select->fetch_array();
-			$conexdb->close();*/
-
 			$this->db->conectar();
             $tabla = $this->db->consulta("SELECT * from libros where id_libro = '$id_libro'");
             $this->db->desconectar();
@@ -33,16 +22,22 @@
 			return $tabla;
 		
 		}
-		public function deleteLibro($id_libro){
-			/*$conexdb=new mysqli("localhost","root","","biblio");
-			$select = $conexdb-> query("Delete  from libros WHERE id_libro='$id_libro'");
+		public function actualizarLibro($id_libro){
+			$titulo=$_REQUEST["titulo"];
+			$autor=$_REQUEST["autor"];
+			$editorial=$_REQUEST["editorial"];
+			$lugar=$_REQUEST["lugar_edicion"];
+			$fecha=$_REQUEST["fecha_edicion"];
+			$isbn=$_REQUEST["ISBN"];
+			$tipo=$_REQUEST["tipo"];
 
-            if($conexdb->affected_rows==1) {
-                $resultado = true;
-            }else {
-                $resultado= false;
-            }
-            */
+			$this->db->conectar();
+			$res = $this->db->manipula("Update libros set titulo='$titulo', autor='$autor',editorial='$editorial',lugar_edicion='$lugar', fecha_edicion='$fecha', ISBN='$isbn', tipo='$tipo' where id_libro='$id_libro'");
+			print_r($res);
+			$this->db->desconectar();
+			return $res;
+		}
+		public function deleteLibro($id_libro){
             $this->db->conectar();
             $res = $this->db->manipula("Delete  from libros WHERE id_libro='$id_libro'");
             $this->db->desconectar();
@@ -53,7 +48,7 @@
 		//renombrar imagenes
 		public function renomDir($id_libro,$pag_ant,$num_pag){
 			for($i=$num_pag-1;$i>$pag_ant;$i--){
-				$oldDir="imgs/books/$id_libro/".$i.".jpg";
+				$oldDir="imgs/books/$id_libro/1(".($i+1).").jpg";
 				$newDir="imgs/books/$id_libro/".($i+1).".jpg";
 				rename($oldDir,$newDir);
 			}
@@ -62,11 +57,6 @@
 		//crear carpeta con el siguiente id de la base de datos
 		
 		public function getmaxIDLibro(){
-			/*$conexdb=new mysqli("localhost","root","","biblio");
-			$select = $conexdb-> query("SELECT MAX(id_libro) from libros");
-		
-			$ArrayMax = $select->fetch_array();*/
-
 			$this->db->conectar();
             $tabla = $this->db->consulta("SELECT MAX(id_libro) from libros");
             $this->db->desconectar();
@@ -77,7 +67,6 @@
 		public function insertarImagen($id_libro, $pag_ant) {
 			
 			$target_file = "imgs/books/$id_libro/" . ($pag_ant + 1). ".jpg";
-			echo $target_file;
 			$uploadOk = 1;
 			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 			
@@ -117,22 +106,28 @@
 			$isbn=$_REQUEST["isbn"];
 			$tipo=$_REQUEST["tipo"];
 
-			/*
-			$conexdb=new mysqli("localhost","root","","biblio");
-			$select = $conexdb-> query("INSERT INTO libros(id_libro,titulo,autor,editorial,lugar_edicion,fecha_edicion,ISBN,tipo) VALUES ('$titulo','$autor','$editorial','$lugar','$fecha','$fecha','$isbn','$tipo')");
-
-			if($conexdb->affected_rows==1) {
-                $resultado = true;
-            }else {
-                $resultado= false;
-            }
-			*/
             $this->db->conectar();
             $res = $this->db->manipula("INSERT INTO libros(id_libro,titulo,autor,editorial,lugar_edicion,fecha_edicion,ISBN,tipo) VALUES ('$titulo','$autor','$editorial','$lugar','$fecha','$fecha','$isbn','$tipo')");
             $this->db->desconectar();
          	
             return $res;
 		}
+
+
+		//Renombrar archivos de una carpeta
+		public function rename_cont($id_libro){
+			$ruta ="imgs/books/$id_libro";
+			$carpeta = scandir($ruta,SCANDIR_SORT_NONE);
+			$cantidadarchivos=count($carpeta);
+
+			for($i=0;$i<$cantidadarchivos;$i++){
+				print_r($carpeta[$i]);
+				/*$oldDir="imgs/books/$id_libro/".$carpeta[$i].".jpg";
+				$newDir="imgs/books/$id_libro/".$i.".jpg";
+				rename($oldDir,$newDir);*/
+			}
+		}
+
 	}
 
 ?>

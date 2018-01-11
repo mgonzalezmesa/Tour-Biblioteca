@@ -1,4 +1,4 @@
-
+<meta charset="UTF-8">
 <?php
 
     include("vista.php");
@@ -43,6 +43,17 @@
 			$vista->show("inserLibro");
 			break;
 			
+		case "modifiedLibro":
+			$id_libro=$_REQUEST["id_libro"];
+			print_r($id_libro);
+
+			$resultado=$libro->actualizarLibro($id_libro);
+			if($resultado){
+				$datos["tabla"] = $libro->get_info();
+				$vista->show("IntAdmin",$datos);
+			}
+
+		break;
 		case "deleteLibro":
 			$id_libro = $_REQUEST["id"];
 			$resultado = $libro->deleteLibro($id_libro);
@@ -61,6 +72,13 @@
 			$libro->insertarImagen($id_libro, $pag_ant);
 			$datos = $_REQUEST["id"];
 			$vista->show("insertImg",$datos);
+		break;
+
+		//RENOMBRAR ARCHIVOS 
+		case "renom":
+			$id_libro = $_REQUEST["id"];
+			$datos["todo"]=$libro->rename_cont($id_libro);
+			$vista->show("prueba");
 		break;
     }
 
