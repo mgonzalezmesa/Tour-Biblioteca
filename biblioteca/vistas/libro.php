@@ -4,7 +4,7 @@
 				
 				$("#flipbook").turn({
 					width: 1000,
-					height: 650,
+					height: 400,
 					elevation: 50,
 					autoCenter: true,
 					duration:2500
@@ -15,12 +15,12 @@
 					$('#flipbook').turn('page', 2);
 					},1000);
 				});
-			//agrega la funcion para la accion del link pagina previa
+			//agrega la funcion para la accion del link  a la pagina previa
 				 $('.prev_page').click(function(){
 				  $('#flipbook').turn('previous');
 				 });
 				 
-			//agrega la funcion para la accion del link pagina siguiente
+			//agrega la funcion para la accion del link a la pagina siguiente
 				 $('.next_page').click(function(){
 				  $('#flipbook').turn('next');
 				 });
@@ -49,9 +49,11 @@
 
 
 		<div id="bloque" class="animate">
+			<!--<div id="banner" style="position:absolute; background-color:red; width: 100%; height:50px"></div>-->
+			<a href="#" class="prev_page"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
 			<a href="#" class="next_page a"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
 			<a href="#" class="prev_page"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-			<a href="#" class="pepico">zoom</a>
+			<!-- <a href="#" class="pepico">zoom</a> -->
 			<div id="flipbook" class="animated ">
 				
 				<?php

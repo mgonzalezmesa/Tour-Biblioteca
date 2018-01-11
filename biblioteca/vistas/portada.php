@@ -16,6 +16,8 @@
 		<link href="css/hover.css" rel="stylesheet" media="all">
 		
 		<link rel="stylesheet" type="text/css" href="css/estilo.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="bibliocss/inserLibro.css" media="screen" />
+
 		
 		
 		<link rel="stylesheet" href="css/animate.css">

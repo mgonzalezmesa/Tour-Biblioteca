@@ -58,9 +58,13 @@
 										"<input type='file' class='file-input' name='fichero' accept='image/jpg'  id='input' multiple='true' onchange='handleFiles(this.files)'/>".
 										"<input type='submit'/>".
 										"</form><br/>";
-							echo "<button>Borrar</button>";
-							echo "$i";
+							//echo "<button>Borrar</button>";
+							//echo "$i";
+
 						echo "</td>";
+						echo "<td><button>Borrar</button></td>";
+							echo "<td>$i</td>";
+
 					}
 			echo "</tr>";
 		echo "</table>";
